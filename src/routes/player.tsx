@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
 import AuroraBackground from '@/components/aceternity/AuroraBackground'
 import Sparkles from '@/components/aceternity/Sparkles'
 import GlowingCard from '@/components/aceternity/GlowingCard'
@@ -55,14 +54,14 @@ function Player() {
   const [currentSong, setCurrentSong] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(225) // 3:45 in seconds
-  const [volume, setVolume] = useState(75)
+  const [volume] = useState(75)
   const [isMuted, setIsMuted] = useState(false)
   const [isRepeat, setIsRepeat] = useState(false)
   const [isShuffle, setIsShuffle] = useState(false)
   const [isLiked, setIsLiked] = useState(false)
   const [visualizerBars, setVisualizerBars] = useState<number[]>([])
 
-  const intervalRef = useRef<NodeJS.Timeout>()
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
   // Update duration when song changes
   useEffect(() => {

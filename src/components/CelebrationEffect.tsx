@@ -1,5 +1,5 @@
 import { motion } from 'motion/react'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 interface Particle {

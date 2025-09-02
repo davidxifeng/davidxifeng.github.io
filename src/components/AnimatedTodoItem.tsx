@@ -1,9 +1,9 @@
 import { motion, AnimatePresence } from 'motion/react'
-import { ReactNode, useState, useRef } from 'react'
+import { type ReactNode, useState, useRef } from 'react'
 import CelebrationEffect from './CelebrationEffect'
 
 interface AnimatedTodoItemProps {
-  children: (checkboxRef: React.RefObject<HTMLButtonElement>) => ReactNode
+  children: (checkboxRef: React.RefObject<HTMLButtonElement | null>) => ReactNode
   isCompleted: boolean
   isRemoving?: boolean
   onRemoveComplete?: () => void
