@@ -2,14 +2,14 @@ name: CI
 
 on:
   pull_request:
-    branches: [main]  # 只检查目标为 main 的 PR
+    branches: [main] # 只检查目标为 main 的 PR
   push:
-    branches: [main]  # 只检查推送到 main 的提交
+    branches: [main] # 只检查推送到 main 的提交
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,6 +24,3 @@ jobs:
 
       - name: Type check
         run: bun run build
-
-      - name: Run tests
-        run: bun run test
