@@ -12,7 +12,8 @@
       "Bash(bun run:*)",
       "Bash(git commit:*)",
       "Bash(lsof:*)",
-      "Bash(bun remove:*)"
+      "Bash(bun remove:*)",
+      "Bash(magick:*)"
     ],
     "deny": [],
     "ask": []

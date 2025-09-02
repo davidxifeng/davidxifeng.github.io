@@ -1,0 +1,38 @@
+<svg viewBox="0 0 64 64" width="64" height="64"
+    xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- 六边形的蓝色渐变 -->
+        <linearGradient id="hexGradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#3B82F6"/>
+            <stop offset="1" stop-color="#60A5FA"/>
+        </linearGradient>
+        <!-- 闪电的黄色渐变 -->
+        <linearGradient id="boltGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#FACC15"/>
+            <stop offset="1" stop-color="#FB923C"/>
+        </linearGradient>
+        <!-- 外发光效果 -->
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2.2" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- 背景 -->
+    <rect x="4" y="4" width="56" height="56" rx="14" fill="#0B1021"/>
+
+    <!-- 六边形 -->
+    <polygon points="32,8 52,20 52,44 32,56 12,44 12,20" fill="none" stroke="url(#hexGradient)" stroke-width="3" stroke-linejoin="round" filter="url(#glow)"/>
+
+    <!-- 左括号 -->
+    <path d="M22 20c-4 0-6 2-6 6v12c0 4 2 6 6 6" fill="none" stroke="#60A5FA" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- 右括号 -->
+    <path d="M42 20c4 0 6 2 6 6v12c0 4-2 6-6 6" fill="none" stroke="#60A5FA" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- 彩色闪电 -->
+    <path d="M34 18 L26 34 h8 l-4 12 10-16 h-8 z" fill="url(#boltGradient)" filter="url(#glow)"/>
+</svg>
