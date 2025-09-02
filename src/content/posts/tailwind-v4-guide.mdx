@@ -1,0 +1,255 @@
+---
+title: "Tailwind CSS v4 使用指南"
+date: "2024-03-05"
+excerpt: "探索 Tailwind CSS v4 的新特性和改进，了解如何在现代项目中使用这个强大的 CSS 框架。"
+tags: ["Tailwind", "CSS", "前端", "样式"]
+category: "技术"
+---
+
+# Tailwind CSS v4 使用指南
+
+Tailwind CSS v4 带来了许多令人兴奋的改进和新特性。作为一个原子化 CSS 框架，它让我们能够快速构建现代化的用户界面。
+
+## 主要改进
+
+### 1. 性能优化
+
+Tailwind v4 在性能方面有了显著提升：
+
+- **更快的构建速度**：新的 Rust 引擎
+- **更小的包体积**：更智能的 tree-shaking
+- **更好的缓存机制**：增量构建支持
+
+### 2. 新的配置系统
+
+```js
+// tailwind.config.js
+export default {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          50: '#f0f9ff',
+          500: '#3b82f6',
+          900: '#1e40af',
+        }
+      }
+    }
+  }
+}
+```
+
+### 3. CSS 变量集成
+
+Tailwind v4 更好地支持 CSS 变量：
+
+```css
+:root {
+  --color-primary: theme(colors.blue.500);
+  --font-family-sans: theme(fontFamily.sans);
+}
+
+.custom-component {
+  color: var(--color-primary);
+  font-family: var(--font-family-sans);
+}
+```
+
+## 实用工具类
+
+### 1. 布局类
+
+```html
+<!-- Flexbox -->
+<div class="flex items-center justify-between">
+  <span>左侧内容</span>
+  <span>右侧内容</span>
+</div>
+
+<!-- Grid -->
+<div class="grid grid-cols-3 gap-4">
+  <div>项目 1</div>
+  <div>项目 2</div>
+  <div>项目 3</div>
+</div>
+```
+
+### 2. 响应式设计
+
+```html
+<!-- 响应式布局 -->
+<div class="w-full md:w-1/2 lg:w-1/3">
+  <div class="p-4 bg-white rounded-lg shadow">
+    卡片内容
+  </div>
+</div>
+
+<!-- 响应式文字 -->
+<h1 class="text-2xl md:text-4xl lg:text-6xl font-bold">
+  响应式标题
+</h1>
+```
+
+### 3. 暗色模式
+
+```html
+<div class="bg-white dark:bg-gray-900">
+  <h1 class="text-gray-900 dark:text-white">
+    支持暗色模式的标题
+  </h1>
+</div>
+```
+
+## 组件化开发
+
+### 1. 使用 @apply 指令
+
+```css
+.btn-primary {
+  @apply bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors;
+}
+
+.card {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6;
+}
+```
+
+### 2. 组件类提取
+
+```jsx
+// React 组件示例
+function Button({ variant = 'primary', children, ...props }) {
+  const baseClasses = 'font-medium py-2 px-4 rounded-lg transition-colors';
+  
+  const variantClasses = {
+    primary: 'bg-blue-500 hover:bg-blue-600 text-white',
+    secondary: 'bg-gray-200 hover:bg-gray-300 text-gray-900',
+    outline: 'border-2 border-blue-500 text-blue-500 hover:bg-blue-50'
+  };
+  
+  return (
+    <button 
+      className={`${baseClasses} ${variantClasses[variant]}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+```
+
+## 高级特性
+
+### 1. 任意值支持
+
+```html
+<!-- 自定义间距 -->
+<div class="p-[18px]">内容</div>
+
+<!-- 自定义颜色 -->
+<div class="bg-[#f59e0b]">自定义背景色</div>
+
+<!-- 自定义字体大小 -->
+<h1 class="text-[28px]">自定义字体大小</h1>
+```
+
+### 2. 修饰符组合
+
+```html
+<!-- 伪类修饰符 -->
+<button class="hover:scale-105 active:scale-95 focus:ring-2 focus:ring-blue-500">
+  交互按钮
+</button>
+
+<!-- 状态修饰符 -->
+<input class="border-gray-300 focus:border-blue-500 invalid:border-red-500">
+```
+
+### 3. 容器查询
+
+```html
+<div class="@container">
+  <div class="@lg:flex @lg:gap-4">
+    <div class="@lg:w-1/3">侧边栏</div>
+    <div class="@lg:w-2/3">主内容</div>
+  </div>
+</div>
+```
+
+## 最佳实践
+
+### 1. 命名约定
+
+```jsx
+// 好的实践
+const cardStyles = 'bg-white rounded-lg shadow-md p-6';
+const buttonStyles = 'bg-blue-500 text-white px-4 py-2 rounded';
+
+// 避免过长的类名字符串
+const Component = () => (
+  <div className={cardStyles}>
+    <button className={buttonStyles}>
+      点击我
+    </button>
+  </div>
+);
+```
+
+### 2. 性能优化
+
+```js
+// 使用 PurgeCSS 移除未使用的样式
+module.exports = {
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
+    './public/index.html',
+  ],
+  // ...其他配置
+}
+```
+
+### 3. 团队协作
+
+- 建立设计系统和组件库
+- 使用 Prettier 插件自动格式化类名
+- 定义项目特定的工具类
+
+## 与其他工具集成
+
+### 1. Vite 集成
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite';
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  plugins: [tailwindcss()],
+});
+```
+
+### 2. PostCSS 配置
+
+```js
+// postcss.config.js
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  }
+}
+```
+
+## 总结
+
+Tailwind CSS v4 是一个功能强大且高效的 CSS 框架，它让我们能够：
+
+- 快速构建现代化的用户界面
+- 保持设计的一致性
+- 减少自定义 CSS 的编写
+- 提高开发效率
+
+通过合理使用 Tailwind 的工具类和高级特性，我们可以创建出既美观又性能优秀的 Web 应用。
+
+记住，关键是要找到实用类和自定义组件之间的平衡，让代码既灵活又可维护。

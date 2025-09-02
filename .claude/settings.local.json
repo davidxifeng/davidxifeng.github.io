@@ -10,7 +10,9 @@
       "Bash(chmod:*)",
       "Bash(bun update:*)",
       "Bash(bun run:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(lsof:*)",
+      "Bash(bun remove:*)"
     ],
     "deny": [],
     "ask": []

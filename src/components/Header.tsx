@@ -3,10 +3,11 @@ import ThemeToggle from './ThemeToggle'
 
 const navItems = [
   { to: '/', label: 'Home' },
-  { to: '/about', label: 'About' },
+  { to: '/blog', label: 'Blog' },
   { to: '/todo', label: 'Todo' },
   { to: '/showcase', label: 'Showcase' },
   { to: '/player', label: 'Player' },
+  { to: '/about', label: 'About' },
 ]
 
 export default function Header() {

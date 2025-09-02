@@ -136,3 +136,13 @@ code {
     @apply bg-background text-foreground;
   }
 }
+
+/* Grid background pattern */
+.bg-grid-white {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+}
+
+.bg-grid-16 {
+  background-size: 16px 16px;
+}
