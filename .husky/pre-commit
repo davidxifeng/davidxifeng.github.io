@@ -1,0 +1,10 @@
+# 检查当前分支或目标分支是否为 main
+current_branch=$(git symbolic-ref --short HEAD 2>/dev/null || echo "HEAD")
+
+# 如果当前分支是 main，或者是要合并到 main 的分支，则执行检查
+if [ "$current_branch" = "main" ] || git log --oneline --merges -1 | grep -q "Merge.*into main"; then
+  echo "🔍 Checking build for main branch..."
+  bunx lint-staged
+else
+  echo "⏭️  Skipping build check (not main branch: $current_branch)"
+fi

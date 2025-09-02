@@ -6,7 +6,11 @@
       "Bash(bun add:*)",
       "Bash(git add:*)",
       "Bash(git push:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(chmod:*)",
+      "Bash(bun update:*)",
+      "Bash(bun run:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

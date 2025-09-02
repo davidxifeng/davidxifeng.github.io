@@ -11,6 +11,7 @@ export default defineConfig({
     tanstackRouter({
       target: "react",
       autoCodeSplitting: true,
+      generatedRouteTree: "./src/routeTree.gen.ts"
     }),
     viteReact(),
     tailwindcss(),
@@ -21,4 +22,11 @@ export default defineConfig({
     },
   },
   base: process.env.NODE_ENV === "production" ? "/playground/" : "/",
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+  },
 });
