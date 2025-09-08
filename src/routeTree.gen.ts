@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TodoRouteImport } from './routes/todo'
 import { Route as ShowcaseRouteImport } from './routes/showcase'
 import { Route as PlayerRouteImport } from './routes/player'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
@@ -30,6 +31,11 @@ const ShowcaseRoute = ShowcaseRouteImport.update({
 const PlayerRoute = PlayerRouteImport.update({
   id: '/player',
   path: '/player',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -56,6 +62,7 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/chat': typeof ChatRoute
   '/player': typeof PlayerRoute
   '/showcase': typeof ShowcaseRoute
   '/todo': typeof TodoRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/chat': typeof ChatRoute
   '/player': typeof PlayerRoute
   '/showcase': typeof ShowcaseRoute
   '/todo': typeof TodoRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/chat': typeof ChatRoute
   '/player': typeof PlayerRoute
   '/showcase': typeof ShowcaseRoute
   '/todo': typeof TodoRoute
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/chat'
     | '/player'
     | '/showcase'
     | '/todo'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/chat'
     | '/player'
     | '/showcase'
     | '/todo'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/chat'
     | '/player'
     | '/showcase'
     | '/todo'
@@ -114,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ChatRoute: typeof ChatRoute
   PlayerRoute: typeof PlayerRoute
   ShowcaseRoute: typeof ShowcaseRoute
   TodoRoute: typeof TodoRoute
@@ -142,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/player'
       fullPath: '/player'
       preLoaderRoute: typeof PlayerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -178,6 +198,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ChatRoute: ChatRoute,
   PlayerRoute: PlayerRoute,
   ShowcaseRoute: ShowcaseRoute,
   TodoRoute: TodoRoute,

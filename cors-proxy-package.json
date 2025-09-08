@@ -1,0 +1,26 @@
+{
+  "name": "lm-studio-cors-proxy",
+  "version": "2.0.0",
+  "description": "Simple CORS proxy for LM Studio using Bun runtime",
+  "main": "cors-proxy.js",
+  "type": "module",
+  "scripts": {
+    "start": "bun cors-proxy.js",
+    "dev": "bun --watch cors-proxy.js",
+    "test": "curl http://localhost:8080/health"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "keywords": [
+    "cors",
+    "proxy",
+    "lm-studio",
+    "llm",
+    "github-pages",
+    "bun"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "runtime": "bun"
+}

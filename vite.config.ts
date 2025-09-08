@@ -34,6 +34,23 @@ export default defineConfig({
     },
   },
   base: "/",
+  server: {
+    proxy: {
+      '/api/lm-studio': {
+        target: 'http://localhost:1234',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/lm-studio/, ''),
+        configure: (proxy, _options) => {
+          proxy.on('error', (err, _req, _res) => {
+            console.log('LM Studio proxy error:', err);
+          });
+          proxy.on('proxyReq', (_proxyReq, req, _res) => {
+            console.log('Proxying request to LM Studio:', req.method, req.url);
+          });
+        },
+      },
+    },
+  },
   build: {
     rollupOptions: {
       output: {
