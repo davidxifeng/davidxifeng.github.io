@@ -20,7 +20,13 @@
       "mcp__browsermcp__browser_wait",
       "Bash(timeout:*)",
       "mcp__browsermcp__browser_click",
-      "mcp__browsermcp__browser_snapshot"
+      "mcp__browsermcp__browser_snapshot",
+      "mcp__ide__getDiagnostics",
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__chrome-devtools__evaluate_script",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

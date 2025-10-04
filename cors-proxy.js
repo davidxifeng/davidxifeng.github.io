@@ -15,7 +15,8 @@ const LM_STUDIO_URL = process.env.LM_STUDIO_URL || "http://localhost:1234";
 
 // CORS configuration - add your GitHub Pages URL here
 const allowedOrigins = [
-  "https://yourusername.github.io", // Replace with your actual GitHub Pages URL
+  "https://davidxifeng.github.io",
+  "https://blog.zhoushen929.com",
   "http://localhost:3000", // For local development
   "http://localhost:5173", // For Vite dev server
   "http://127.0.0.1:3000",

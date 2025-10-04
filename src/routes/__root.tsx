@@ -8,8 +8,12 @@ import ThemeProvider from '../components/ThemeProvider'
 export const Route = createRootRoute({
   component: () => (
     <ThemeProvider>
-      <Header />
-      <Outlet />
+      <div className="grid grid-rows-[auto_1fr] h-screen overflow-hidden">
+        <Header />
+        <main className="overflow-auto">
+          <Outlet />
+        </main>
+      </div>
       <TanstackDevtools
         config={{
           position: 'bottom-left',

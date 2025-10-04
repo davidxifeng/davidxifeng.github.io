@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import ThemeToggle from './ThemeToggle'
+import ToolkitMenu from './ToolkitMenu'
 
 const navItems = [
   { to: '/', label: 'Home' },
@@ -7,7 +8,6 @@ const navItems = [
   { to: '/todo', label: 'Todo' },
   { to: '/chat', label: 'Chat' },
   { to: '/showcase', label: 'Showcase' },
-  { to: '/player', label: 'Player' },
   { to: '/about', label: 'About' },
 ]
 
@@ -35,6 +35,7 @@ export default function Header() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
+            <ToolkitMenu />
             <ThemeToggle />
           </div>
           
@@ -53,6 +54,7 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
+              <ToolkitMenu />
               <ThemeToggle />
             </div>
           </div>
