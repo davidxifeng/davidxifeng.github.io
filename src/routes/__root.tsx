@@ -1,6 +1,6 @@
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanstackDevtools } from '@tanstack/react-devtools'
+import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import Header from '../components/Header'
 import ThemeProvider from '../components/ThemeProvider'
@@ -14,7 +14,7 @@ export const Route = createRootRoute({
           <Outlet />
         </main>
       </div>
-      <TanstackDevtools
+      <TanStackDevtools
         config={{
           position: 'bottom-left',
         }}
