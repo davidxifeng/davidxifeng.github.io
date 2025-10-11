@@ -1,22 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+  <head>
     <meta charset="utf-8">
-    <title>Playground</title>
-    <script>
-        // GitHub Pages SPA redirect hack
-        // https://github.com/rafgraph/spa-github-pages
-        var segmentCount = 1; // playground/ 为 1 个路径段
-        var l = window.location;
-        l.replace(
-            l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-            l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?/' +
-            l.pathname.slice(1).split('/').slice(segmentCount).join('/').replace(/&/g, '~and~') +
-            (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-            l.hash
-        );
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages
+      // MIT License
+      // https://github.com/rafgraph/spa-github-pages
+      // Modified to support custom domains and prevent redirect loops
+
+      var l = window.location;
+
+      // Prevent redirect loops - if already has /?/ format, don't redirect
+      if (l.search[0] === '/' || l.pathname.indexOf('/?/') !== -1) {
+        // Already in redirect format, stop processing and let index.html handle it
+        return;
+      }
+
+      // Extract path segments properly for both custom domains and github.io domains
+      var pathSegments = l.pathname.split('/');
+
+      // For custom domains, we want to preserve the full path
+      // For github.io domains with repo name, we need to skip the repo name
+      var segmentOffset = 0;
+
+      // Check if this is a github.io domain with a repo name in the path
+      if (l.hostname.includes('github.io') && pathSegments.length > 1 && pathSegments[1]) {
+        // Skip the repo name segment
+        segmentOffset = 1;
+      }
+
+      // Build the redirect URL
+      var redirectPath = '/' + pathSegments.slice(1 + segmentOffset).join('/');
+
+      // Only redirect if there's actually a path to handle
+      if (redirectPath !== '/' || l.search || l.hash) {
+        var redirectUrl =
+          l.protocol +
+          '//' +
+          l.hostname +
+          (l.port ? ':' + l.port : '') +
+          '/?/' +
+          redirectPath.slice(1).replace(/&/g, '~and~') +
+          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash;
+
+        l.replace(redirectUrl);
+      } else {
+        // No path to handle, redirect to root
+        l.replace(l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + '/');
+      }
     </script>
-</head>
-<body>
-</body>
+  </head>
+  <body>
+    <p>Redirecting...</p>
+    <noscript>
+      <p>JavaScript is required for this site to work properly.</p>
+      <p>Please enable JavaScript and refresh the page.</p>
+    </noscript>
+  </body>
 </html>
