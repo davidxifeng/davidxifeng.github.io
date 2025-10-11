@@ -287,9 +287,10 @@ function UserProfileSection() {
 
       {isLoading && <p className="text-muted-foreground">加载中...</p>}
 
-      {error && (
+      {!!error && (
         <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-md">
           <p className="text-sm text-yellow-800">⚠️ 未登录或登录已过期</p>
+          <p className="text-xs text-yellow-600 mt-1">{String(error)}</p>
         </div>
       )}
 

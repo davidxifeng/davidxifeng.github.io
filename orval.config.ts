@@ -6,12 +6,7 @@ export default defineConfig({
       mode: 'single',
       target: './src/api/generated/api.ts',
       client: 'react-query',
-      prettier: {
-        printWidth: 100,
-        tabWidth: 4,
-        trailingComma: 'es5',
-        semi: true,
-      },
+      prettier: true,
       override: {
         mutator: {
           path: './src/api/axios-instance.ts',
