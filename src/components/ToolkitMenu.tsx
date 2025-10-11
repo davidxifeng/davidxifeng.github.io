@@ -1,12 +1,12 @@
-import { Link, useRouterState } from '@tanstack/react-router'
-import { Button } from '@/components/ui/button'
+import { Link, useRouterState } from '@tanstack/react-router';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Wrench, Music, BookOpen, Check } from 'lucide-react'
+} from '@/components/ui/dropdown-menu';
+import { Wrench, Music, BookOpen, Check, Server } from 'lucide-react';
 
 const toolkitItems = [
   {
@@ -16,16 +16,22 @@ const toolkitItems = [
     description: '日本語を読もう！',
   },
   {
+    to: '/test',
+    icon: Server,
+    label: 'API test',
+    description: 'OpenAPI client',
+  },
+  {
     to: '/player',
     icon: Music,
     label: 'Player',
     description: '音乐播放器',
   },
-]
+];
 
 export default function ToolkitMenu() {
-  const router = useRouterState()
-  const currentPath = router.location.pathname
+  const router = useRouterState();
+  const currentPath = router.location.pathname;
 
   return (
     <DropdownMenu>
@@ -45,9 +51,9 @@ export default function ToolkitMenu() {
         className="min-w-[200px] bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border-gray-200 dark:border-slate-700"
         sideOffset={8}
       >
-        {toolkitItems.map((item) => {
-          const IconComponent = item.icon
-          const isActive = currentPath === item.to
+        {toolkitItems.map(item => {
+          const IconComponent = item.icon;
+          const isActive = currentPath === item.to;
 
           return (
             <DropdownMenuItem key={item.to} asChild className="p-0">
@@ -74,14 +80,12 @@ export default function ToolkitMenu() {
                     {item.description}
                   </div>
                 </div>
-                {isActive && (
-                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                )}
+                {isActive && <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />}
               </Link>
             </DropdownMenuItem>
-          )
+          );
         })}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

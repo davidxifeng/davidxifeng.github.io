@@ -28,7 +28,9 @@
       "mcp__chrome-devtools__evaluate_script",
       "WebSearch",
       "mcp__chrome-devtools__take_snapshot",
-      "mcp__chrome-devtools__click"
+      "mcp__chrome-devtools__click",
+      "Bash(sed:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []

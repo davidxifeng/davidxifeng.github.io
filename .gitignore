@@ -10,3 +10,6 @@ count.txt
 
 
 bun.lock
+
+# API Generated Files
+src/api/generated/

@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TodoRouteImport } from './routes/todo'
+import { Route as TestRouteImport } from './routes/test'
 import { Route as ShowcaseRouteImport } from './routes/showcase'
 import { Route as PlayerRouteImport } from './routes/player'
 import { Route as JpadRouteImport } from './routes/jpad'
@@ -22,6 +23,11 @@ import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 const TodoRoute = TodoRouteImport.update({
   id: '/todo',
   path: '/todo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TestRoute = TestRouteImport.update({
+  id: '/test',
+  path: '/test',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShowcaseRoute = ShowcaseRouteImport.update({
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/jpad': typeof JpadRoute
   '/player': typeof PlayerRoute
   '/showcase': typeof ShowcaseRoute
+  '/test': typeof TestRoute
   '/todo': typeof TodoRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/jpad': typeof JpadRoute
   '/player': typeof PlayerRoute
   '/showcase': typeof ShowcaseRoute
+  '/test': typeof TestRoute
   '/todo': typeof TodoRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/jpad': typeof JpadRoute
   '/player': typeof PlayerRoute
   '/showcase': typeof ShowcaseRoute
+  '/test': typeof TestRoute
   '/todo': typeof TodoRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/jpad'
     | '/player'
     | '/showcase'
+    | '/test'
     | '/todo'
     | '/blog/$slug'
     | '/blog'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/jpad'
     | '/player'
     | '/showcase'
+    | '/test'
     | '/todo'
     | '/blog/$slug'
     | '/blog'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/jpad'
     | '/player'
     | '/showcase'
+    | '/test'
     | '/todo'
     | '/blog/$slug'
     | '/blog/'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   JpadRoute: typeof JpadRoute
   PlayerRoute: typeof PlayerRoute
   ShowcaseRoute: typeof ShowcaseRoute
+  TestRoute: typeof TestRoute
   TodoRoute: typeof TodoRoute
   BlogSlugRoute: typeof BlogSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/todo'
       fullPath: '/todo'
       preLoaderRoute: typeof TodoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test': {
+      id: '/test'
+      path: '/test'
+      fullPath: '/test'
+      preLoaderRoute: typeof TestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/showcase': {
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   JpadRoute: JpadRoute,
   PlayerRoute: PlayerRoute,
   ShowcaseRoute: ShowcaseRoute,
+  TestRoute: TestRoute,
   TodoRoute: TodoRoute,
   BlogSlugRoute: BlogSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
