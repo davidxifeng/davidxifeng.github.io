@@ -49,20 +49,37 @@ export default defineConfig({
           });
         },
       },
-      // Litestar API proxy for development
+      // API proxy for development
+      // Comment/uncomment based on which backend you're using:
+
+      // Option 1: Cloudflare Workers (recommended)
       '/api': {
-        target: 'http://localhost:8089',
+        target: 'http://localhost:8787',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, ''),
         configure: (proxy, _options) => {
           proxy.on('error', (err, _req, _res) => {
-            console.log('Litestar API proxy error:', err);
+            console.log('Workers API proxy error:', err);
           });
           proxy.on('proxyReq', (_proxyReq, req, _res) => {
-            console.log('Proxying request to Litestar:', req.method, req.url);
+            console.log('Proxying request to Workers:', req.method, req.url);
           });
         },
       },
+
+      // Option 2: Litestar (legacy)
+      // '/api': {
+      //   target: 'http://localhost:8089',
+      //   changeOrigin: true,
+      //   rewrite: path => path.replace(/^\/api/, ''),
+      //   configure: (proxy, _options) => {
+      //     proxy.on('error', (err, _req, _res) => {
+      //       console.log('Litestar API proxy error:', err);
+      //     });
+      //     proxy.on('proxyReq', (_proxyReq, req, _res) => {
+      //       console.log('Proxying request to Litestar:', req.method, req.url);
+      //     });
+      //   },
+      // },
     },
   },
   build: {
