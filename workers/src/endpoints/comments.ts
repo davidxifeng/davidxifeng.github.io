@@ -76,24 +76,24 @@ export class CommentsList extends OpenAPIRoute {
     parameters: [
       {
         name: 'postSlug',
-        in: 'path',
+        in: 'path' as const,
         required: true,
-        schema: { type: 'string' },
+        schema: { type: 'string' as const },
         description: 'Blog post slug',
         example: 'my-blog-post',
       },
       {
         name: 'page',
-        in: 'query',
+        in: 'query' as const,
         required: false,
-        schema: { type: 'integer', default: 1, minimum: 1 },
+        schema: { type: 'integer' as const, default: 1, minimum: 1 },
         description: 'Page number',
       },
       {
         name: 'limit',
-        in: 'query',
+        in: 'query' as const,
         required: false,
-        schema: { type: 'integer', default: 20, minimum: 1, maximum: 100 },
+        schema: { type: 'integer' as const, default: 20, minimum: 1, maximum: 100 },
         description: 'Items per page',
       },
     ],
@@ -329,9 +329,9 @@ export class CommentsUpdate extends OpenAPIRoute {
     parameters: [
       {
         name: 'id',
-        in: 'path',
+        in: 'path' as const,
         required: true,
-        schema: { type: 'string' },
+        schema: { type: 'string' as const },
         description: 'Comment ID',
       },
     ],
@@ -440,9 +440,9 @@ export class CommentsDelete extends OpenAPIRoute {
     parameters: [
       {
         name: 'id',
-        in: 'path',
+        in: 'path' as const,
         required: true,
-        schema: { type: 'string' },
+        schema: { type: 'string' as const },
         description: 'Comment ID',
       },
     ],
@@ -512,9 +512,9 @@ export class CommentsLike extends OpenAPIRoute {
     parameters: [
       {
         name: 'id',
-        in: 'path',
+        in: 'path' as const,
         required: true,
-        schema: { type: 'string' },
+        schema: { type: 'string' as const },
         description: 'Comment ID',
       },
     ],

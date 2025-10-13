@@ -80,9 +80,9 @@ export class AdminCommentStatus extends OpenAPIRoute {
     parameters: [
       {
         name: 'id',
-        in: 'path',
+        in: 'path' as const,
         required: true,
-        schema: { type: 'string' },
+        schema: { type: 'string' as const },
         description: 'Comment ID',
       },
     ],

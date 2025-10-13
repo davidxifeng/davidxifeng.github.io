@@ -171,9 +171,9 @@ export class AnalyticsPopular extends OpenAPIRoute {
     parameters: [
       {
         name: 'limit',
-        in: 'query',
+        in: 'query' as const,
         required: false,
-        schema: { type: 'integer', default: 10, minimum: 1, maximum: 50 },
+        schema: { type: 'integer' as const, default: 10, minimum: 1, maximum: 50 },
         description: 'Maximum number of pages to return',
       },
     ],
