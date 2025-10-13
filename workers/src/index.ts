@@ -11,41 +11,33 @@ import { createLogger } from './middleware/logger'
 
 // Import OpenAPI endpoints
 import {
-  AuthVerifyCode,
-  AuthRegister,
-  AuthLogin,
-  AuthProfile,
-  AuthLogout,
+    AuthVerifyCode,
+    AuthRegister,
+    AuthLogin,
+    AuthProfile,
+    AuthLogout,
 } from './endpoints/auth'
 
 import {
-  CommentsList,
-  CommentsCreate,
-  CommentsUpdate,
-  CommentsDelete,
-  CommentsLike,
+    CommentsList,
+    CommentsCreate,
+    CommentsUpdate,
+    CommentsDelete,
+    CommentsLike,
 } from './endpoints/comments'
 
 // Import Feed endpoints
-import {
-  FeedList,
-  FeedCreate,
-  FeedDelete,
-  FeedLike,
-} from './endpoints/feed'
+import { FeedList, FeedCreate, FeedDelete, FeedLike } from './endpoints/feed'
 
 // Import Analytics endpoints
 import {
-  AnalyticsTrack,
-  AnalyticsStats,
-  AnalyticsPopular,
+    AnalyticsTrack,
+    AnalyticsStats,
+    AnalyticsPopular,
 } from './endpoints/analytics'
 
 // Import Admin endpoints
-import {
-  AdminComments,
-  AdminCommentStatus,
-} from './endpoints/admin'
+import { AdminComments, AdminCommentStatus } from './endpoints/admin'
 
 // Import middleware (only for reference, not used in OpenAPI routes)
 // import { requireAuth, optionalAuth, requireAdmin } from './middleware/auth'
@@ -53,75 +45,84 @@ import {
 // Create Hono app
 const app = new Hono<{ Bindings: Env }>()
 
-
 // Setup OpenAPI registry
 const openapi = fromHono(app, {
-  docs_url: '/docs',
-  schema: {
-    info: {
-      title: 'Playground API',
-      version: '1.0.0',
-      description: 'A full-featured backend API for static websites using Cloudflare Workers',
+    docs_url: '/docs',
+    schema: {
+        info: {
+            title: 'Playground API',
+            version: '1.0.0',
+            description:
+                'A full-featured backend API for static websites using Cloudflare Workers',
+        },
+        servers: [
+            {
+                url: 'http://localhost:8787',
+                description: 'Local development server',
+            },
+            {
+                url: 'https://playground.d813.workers.dev',
+                description: 'Production server',
+            },
+        ],
     },
-    servers: [
-      {
-        url: 'http://localhost:8787',
-        description: 'Local development server',
-      },
-      {
-        url: 'https://playground.d813.workers.dev',
-        description: 'Production server',
-      },
-    ],
-  },
 })
 
-app.use('*', createLogger({
-  logHeaders: true,
-  logBody: true,
-  maxBodyLength: 2000,
-  includePaths: ['/api'],
-  excludePaths: ['/docs', '/openapi.json'],
-}))
+openapi.registry.registerComponent('securitySchemes', 'bearerAuth', {
+    type: 'http',
+    scheme: 'bearer',
+    bearerFormat: 'JWT',
+    description:
+        'JWT token authentication. Use the login endpoint to obtain a token.',
+})
+
+app.use(
+    '*',
+    createLogger({
+        logHeaders: true,
+        logBody: true,
+        maxBodyLength: 2000,
+        includePaths: ['/api'],
+        excludePaths: ['/docs', '/openapi.json'],
+    })
+)
 
 // Note: Security schemes are now defined directly in route schemas
 
 // Global middleware
 app.use('*', async (c, next) => {
-  // Handle CORS preflight
-  if (c.req.method === 'OPTIONS') {
-    return handleOptions(c.env.ALLOWED_ORIGINS)
-  }
-  await next()
+    // Handle CORS preflight
+    if (c.req.method === 'OPTIONS') {
+        return handleOptions(c.env.ALLOWED_ORIGINS)
+    }
+    await next()
 
-  // Add CORS headers to response
-  const response = c.res
-  const newResponse = addCorsHeaders(response, c.env.ALLOWED_ORIGINS)
-  c.res = newResponse
+    // Add CORS headers to response
+    const response = c.res
+    const newResponse = addCorsHeaders(response, c.env.ALLOWED_ORIGINS)
+    c.res = newResponse
 })
-
 
 // Health check (non-OpenAPI route)
-app.get('/', (c) => {
-  // Simple logging for root endpoint
-  console.log(`=== 📥 GET ${c.req.url} ===`)
-  console.log(`User-Agent: ${c.req.header('User-Agent') || 'Unknown'}`)
-  console.log(`Timestamp: ${new Date().toISOString()}`)
+app.get('/', c => {
+    // Simple logging for root endpoint
+    console.log(`=== 📥 GET ${c.req.url} ===`)
+    console.log(`User-Agent: ${c.req.header('User-Agent') || 'Unknown'}`)
+    console.log(`Timestamp: ${new Date().toISOString()}`)
 
-  const response = c.json({
-    name: 'Playground API',
-    version: '1.0.0',
-    status: 'healthy',
-    environment: c.env.ENVIRONMENT,
-    docs: '/docs',
-  })
+    const response = c.json({
+        name: 'Playground API',
+        version: '1.0.0',
+        status: 'healthy',
+        environment: c.env.ENVIRONMENT,
+        docs: '/docs',
+    })
 
-  console.log(`=== 📤 RESPONSE 200 ===`)
-  console.log('')
+    console.log(`=== 📤 RESPONSE 200 ===`)
+    console.log('')
 
-  return response
+    return response
 })
-
 
 // ==================== OpenAPI Auth Routes ====================
 // Note: TypeScript may show type errors for OpenAPIRoute classes, but they work correctly at runtime
@@ -154,29 +155,28 @@ openapi.get('/api/analytics/popular', AnalyticsPopular)
 openapi.get('/api/admin/comments', AdminComments)
 openapi.put('/api/admin/comments/:id/status', AdminCommentStatus)
 
-
 // ==================== Error Handlers ====================
-app.notFound((c) => {
-  return c.json(
-    {
-      error: 'Not Found',
-      message: 'The requested endpoint does not exist',
-      status: 404,
-    },
-    404
-  )
+app.notFound(c => {
+    return c.json(
+        {
+            error: 'Not Found',
+            message: 'The requested endpoint does not exist',
+            status: 404,
+        },
+        404
+    )
 })
 
 app.onError((err, c) => {
-  console.error('Unhandled error:', err)
-  return c.json(
-    {
-      error: 'Internal Server Error',
-      message: err.message || 'An unexpected error occurred',
-      status: 500,
-    },
-    500
-  )
+    console.error('Unhandled error:', err)
+    return c.json(
+        {
+            error: 'Internal Server Error',
+            message: err.message || 'An unexpected error occurred',
+            status: 500,
+        },
+        500
+    )
 })
 
 // Export the Hono app
