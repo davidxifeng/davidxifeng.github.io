@@ -126,6 +126,38 @@ export interface LoggerOptions {
   excludePaths?: string[]
 }
 
+export interface RequestLogInfo {
+  timestamp: string
+  method: string
+  url: string
+  path: string
+  query: Record<string, string>
+  userAgent?: string
+  contentType?: string
+  contentLength?: string
+  ip: string
+  country?: string
+  region?: string
+  city?: string
+  authorization?: {
+    type: string
+    tokenLength: number
+  }
+  headers?: Record<string, string>
+  body?: any
+  bodyError?: string
+}
+
+export interface ResponseLogInfo {
+  timestamp: string
+  status: number
+  statusText: string
+  processingTime: string
+  responseHeaders: Record<string, string>
+  body?: any
+  bodyError?: string
+}
+
 const defaultOptions: LoggerOptions = {
   logHeaders: true,
   logBody: true,
@@ -144,8 +176,8 @@ export function createLogger(options: LoggerOptions = {}) {
 
     // 检查是否应该记录此路径
     const shouldLog =
-      (opts.includePaths.length === 0 || opts.includePaths.some(p => path.startsWith(p))) &&
-      !opts.excludePaths.some(p => path.startsWith(p))
+      (opts.includePaths && opts.includePaths.length === 0 || opts.includePaths?.some(p => path.startsWith(p))) &&
+      !opts.excludePaths?.some(p => path.startsWith(p))
 
     if (!shouldLog) {
       await next()
@@ -153,7 +185,7 @@ export function createLogger(options: LoggerOptions = {}) {
     }
 
     // 收集请求信息
-    const requestInfo: any = {
+    const requestInfo: RequestLogInfo = {
       timestamp: new Date().toISOString(),
       method: c.req.method,
       url: c.req.url,
@@ -195,7 +227,7 @@ export function createLogger(options: LoggerOptions = {}) {
 
     // 添加请求体
     // 使用 clone() 来读取 body，这样不会影响后续 handler 的读取
-    if (opts.logBody && ['POST', 'PUT', 'PATCH'].includes(c.req.method)) {
+    if (opts.logBody && c.env.ENVIRONMENT === 'development' && ['POST', 'PUT', 'PATCH'].includes(c.req.method)) {
       try {
         const contentType = c.req.header('Content-Type') || ''
 
@@ -245,63 +277,24 @@ export function createLogger(options: LoggerOptions = {}) {
     const processingTime = endTime - startTime
 
     // 收集响应信息
-    const responseInfo: any = {
+    const responseInfo: ResponseLogInfo = {
       timestamp: new Date().toISOString(),
       status: c.res.status,
       statusText: getStatusText(c.res.status),
       processingTime: `${processingTime}ms`,
       responseHeaders: {},
     }
-
     // 添加响应头
     if (opts.logHeaders) {
       const headers: Record<string, string> = {}
-
-      // 在 Hono 中，我们需要使用 c.res.headers.get() 来获取响应头
-      // 注意：c.res.headers 是一个 Headers 对象
-
-      // 常见的响应头列表
-      const responseHeaders = [
-        'content-type',
-        'content-length',
-        'cache-control',
-        'etag',
-        'last-modified',
-        'location',
-        'vary',
-        'accept-ranges',
-        'access-control-allow-origin',
-        'access-control-allow-methods',
-        'access-control-allow-headers',
-        'access-control-max-age',
-        'access-control-expose-headers',
-        'access-control-allow-credentials',
-        'set-cookie',
-        'content-encoding',
-        'content-disposition',
-        'transfer-encoding',
-        'connection',
-        'keep-alive',
-        'proxy-authenticate',
-        'proxy-authorization',
-        'retry-after',
-        'server',
-        'www-authenticate'
-      ]
-
-      // 获取所有常见的响应头
-      responseHeaders.forEach(key => {
-        const value = c.res.headers.get(key)
-        if (value) {
-          headers[key] = value
-        }
+      c.res.headers.forEach((value, key) => {
+        headers[key] = value
       })
-
       responseInfo.responseHeaders = headers
     }
 
     // 添加响应体
-    if (opts.logBody && c.res) {
+    if (opts.logBody && c.env.ENVIRONMENT === 'development' && c.res) {
       try {
         const contentType = c.res.headers.get('Content-Type') || ''
 

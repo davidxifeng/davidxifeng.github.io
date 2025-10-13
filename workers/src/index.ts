@@ -69,12 +69,20 @@ const openapi = fromHono(app, {
         description: 'Local development server',
       },
       {
-        url: 'https://playground-api.your-account.workers.dev',
+        url: 'https://playground.d813.workers.dev',
         description: 'Production server',
       },
     ],
   },
 })
+
+app.use('*', createLogger({
+  logHeaders: true,
+  logBody: true,
+  maxBodyLength: 2000,
+  includePaths: ['/api'],
+  excludePaths: ['/docs', '/openapi.json'],
+}))
 
 // Note: Security schemes are now defined directly in route schemas
 
@@ -92,14 +100,6 @@ app.use('*', async (c, next) => {
   c.res = newResponse
 })
 
-
-app.use('*', createLogger({
-    logHeaders: true,
-    logBody: true,  // 使用 clone() 读取请求体，不影响后续处理
-    maxBodyLength: 2000,
-    includePaths: ['/api'],
-    excludePaths: ['/docs', '/openapi.json'],
-  }))
 
 // Health check (non-OpenAPI route)
 app.get('/', (c) => {
